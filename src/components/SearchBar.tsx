@@ -1,19 +1,15 @@
 import {useState} from 'react'
-import { restClient } from "@polygon.io/client-js";
+import {useStockAPI} from "../Hooks/useStockAPI"
 
 const SearchBar = () => {
   const [inputField, setInputField] = useState<string>("")
   const [inputData, setInputData] = useState<string>("")
-  const [outputData, setOutputData] = useState<number>()
+  const {data, isLoading, isError, refetch} = useStockAPI(inputData)
 
-  const rest = restClient(process.env.REACT_APP_POLYGON_API_KEY)
   const getPreviousClose = () => {
     setInputData(inputField)
-    rest.stocks.previousClose(inputData).then((res) => setOutputData(res.results?.[0]?.v))
-    console.log(outputData)
-  }
-
-  const updateData = () => {
+    refetch()
+    console.log(data)
   }
 
   return (
@@ -23,10 +19,20 @@ const SearchBar = () => {
       </div>
       <div className = "SearchButton">
         <button onClick={getPreviousClose}> Submit </button>
-        <p> {outputData}</p>
+        <p> {}</p>
       </div>
     </div>
   )
 }   
 
 export default SearchBar
+
+
+
+ /*
+  const rest = restClient(process.env.REACT_APP_POLYGON_API_KEY)
+  const getPreviousClose = () => {
+    setInputData(inputField)
+    rest.stocks.previousClose(inputData).then((res) => setOutputData(res.results?.[0]?.v))
+    console.log(outputData)
+  }*/
