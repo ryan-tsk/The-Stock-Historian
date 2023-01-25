@@ -1,7 +1,5 @@
 import {useState} from 'react'
-import { polygonClient, restClient, websocketClient } from "@polygon.io/client-js";
-import { config } from "process";
-
+import { restClient } from "@polygon.io/client-js";
 
 const SearchBar = () => {
   const [inputField, setInputField] = useState<string>("")
@@ -20,13 +18,13 @@ const SearchBar = () => {
 
   return (
     <div className = "SearchBar"> 
-        <div className= "SearchField">
-            <input onChange={(event) => setInputField(event?.target.value)}></input>
-        </div>
-        <div className = "SearchButton">
-            <button onClick={getPreviousClose}> Submit </button>
-            <p> {outputData}</p>
-        </div>
+      <div className= "SearchField">
+        <input onChange={(event) => setInputField(event?.target.value)}></input>
+      </div>
+      <div className = "SearchButton">
+        <button onClick={getPreviousClose}> Submit </button>
+        <p> {outputData}</p>
+      </div>
     </div>
   )
 }   
