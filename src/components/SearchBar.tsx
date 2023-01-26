@@ -1,25 +1,32 @@
-import {useState} from 'react'
-import {useStockAPI} from "../Hooks/useStockAPI"
+import {useState, useEffect} from 'react'
+import { setConstantValue } from 'typescript'
+import useStockAPI from '../Hooks/useStockAPI'
 
 const SearchBar = () => {
   const [inputField, setInputField] = useState<string>("")
-  const [inputData, setInputData] = useState<string>("")
-  const {data, isLoading, isError, refetch} = useStockAPI(inputData)
+  const [submitSearch, setSubmitSearch] = useState<boolean>(false)
+  const {data: stockData, isLoading, isError, refetchData, updateData} = useStockAPI()
+
+  useEffect (() => {
+    refetchData()
+    setSubmitSearch(previousState => !previousState)
+    console.log(stockData)
+  }, [setSubmitSearch])
+
 
   const getPreviousClose = () => {
-    setInputData(inputField)
-    refetch()
-    console.log(data)
+    updateData(inputField)
+    setSubmitSearch(previousState => !previousState)
   }
 
   return (
     <div className = "SearchBar"> 
       <div className= "SearchField">
-        <input onChange={(event) => setInputField(event?.target.value)}></input>
+        <input onChange={(e) => {setInputField(e.target.value)}}></input>
       </div>
       <div className = "SearchButton">
-        <button onClick={getPreviousClose}> Submit </button>
-        <p> {}</p>
+        <button type="submit" onClick={getPreviousClose}> Submit </button>
+        <p> {stockData}</p>
       </div>
     </div>
   )

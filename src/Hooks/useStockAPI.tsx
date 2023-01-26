@@ -1,36 +1,29 @@
-import { restClient } from "@polygon.io/client-js";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query'
+import {useState} from 'react'
+import {restClient} from '@polygon.io/client-js'
 
-export const useStockAPI = (inputData: string) => {
+function useStockAPI() {
   const rest = restClient(process.env.REACT_APP_POLYGON_API_KEY)
+  const [inputData, setInputData] = useState("")
 
-  const {data, 
-    isLoading, 
-    isError, 
-    refetch
-  } = useQuery(["stock"], async () => {
-    return rest.stocks.previousClose(inputData).then((res => {return res.results?.[0]}))
-  }, {enabled: false}) 
+  const {data, isLoading, isError, refetch} = useQuery(['stock'], async () => getData(), {enabled: false})
 
-  /*const {
-    data, 
-    isLoading, 
-    isError, 
-    refetch,
-  } = useQuery(["stock"], () => {
-    return rest.stocks.previousClose(inputData).then((res) =>  {return res.results?.[0]})}, {
-      refetchOnWindowFocus: false,
-      enabled: false
-    })
-  }*/
+  const getData = async () => {
+    if (inputData){
+      return rest.stocks.previousClose(inputData).then((res) => {return res.results?.[0]?.v})
+    }
+  }
 
-  const getData = () => {
-    
+  const updateData = (input: string) => {
+    setInputData(input)
   }
 
   const refetchData = () => {
     refetch()
   }
 
-  return {data, isLoading, isError, refetch}
+  return {data, isLoading, isError, refetchData, updateData}
+
 }
+
+export default useStockAPI
