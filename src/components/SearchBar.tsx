@@ -7,16 +7,11 @@ const SearchBar = () => {
   const [submitSearch, setSubmitSearch] = useState<boolean>(false)
   const {data: stockData, isLoading, isError, refetchData, updateData} = useStockAPI()
 
-  useEffect (() => {
-    refetchData()
-    setSubmitSearch(previousState => !previousState)
-    console.log(stockData)
-  }, [setSubmitSearch])
-
 
   const getPreviousClose = () => {
+    console.log("Updating:" + inputField)
     updateData(inputField)
-    setSubmitSearch(previousState => !previousState)
+    console.log(stockData)
   }
 
   return (
@@ -26,7 +21,8 @@ const SearchBar = () => {
       </div>
       <div className = "SearchButton">
         <button type="submit" onClick={getPreviousClose}> Submit </button>
-        <p> {stockData}</p>
+        <p> {stockData?.daily.close}</p>
+        <p> {stockData?.prevClose?.v}</p>
       </div>
     </div>
   )
