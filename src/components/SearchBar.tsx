@@ -21,8 +21,13 @@ const SearchBar = () => {
       </div>
       <div className = "SearchButton">
         <button type="submit" onClick={getPreviousClose}> Submit </button>
-        <p> {stockData?.daily.close}</p>
-        <p> {stockData?.prevClose?.v}</p>
+        <p> Closing: {stockData?.daily.close}</p>
+        <p> High: {stockData?.daily.high} </p>
+        <p> Low: {stockData?.daily.low}</p>
+        <p> Open: {stockData?.daily.open} </p>
+        <p> Volume: {stockData?.daily.volume} </p>
+        <p> News Title: {stockData?.news.title}</p>
+        <p> Link: {stockData?.news.article_url}</p>
       </div>
     </div>
   )

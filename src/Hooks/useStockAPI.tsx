@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import {useState} from 'react'
 import {restClient, ITickerNewsQuery} from '@polygon.io/client-js'
+import axios from 'axios'
 
 function useStockAPI() {
   const rest = restClient(process.env.REACT_APP_POLYGON_API_KEY)
@@ -22,8 +23,10 @@ function useStockAPI() {
     setInputData("")
 
     const daily = await rest.stocks.dailyOpenClose(symbol, date).then(res => {return res})
-    const prevClose = await rest.stocks.previousClose(symbol).then(res => {return res.results?.[0]})
-    return {daily, prevClose}
+    const news = await axios.get(`https://api.polygon.io/v2/reference/news?ticker=${symbol}&apiKey=${process.env.REACT_APP_POLYGON_API_KEY}`).then(
+    res => {return res.data.results?.[0]})
+    console.log(news)
+    return {daily, news}
   }
 
   const updateData = (symbol: string) => {
