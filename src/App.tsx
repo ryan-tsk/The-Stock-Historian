@@ -10,7 +10,6 @@ function App() {
   const queryClient = new QueryClient();
   return (
     <div className="App" style={styles}>
-      <h1> The Stock Historian </h1>
       <Router>
         <NavBar/>
         <QueryClientProvider client = {queryClient}>

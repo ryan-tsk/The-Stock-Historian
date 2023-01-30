@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import { setConstantValue } from 'typescript'
-import useStockAPI from '../Hooks/useStockAPI'
+import useStockAPI from '../hooks/useStockAPI'
 
 const SearchBar = () => {
   const [inputField, setInputField] = useState<string>("")
